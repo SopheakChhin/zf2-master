@@ -14,16 +14,19 @@
         <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
                         ->prependStylesheet($this->basePath('css/style.css'))
                         ->prependStylesheet($this->basePath('css/bootstrap-theme.min.css'))
-                        ->prependStylesheet($this->basePath('css/bootstrap.min.css')) ?>
+                        ->prependStylesheet($this->basePath('css/bootstrap.min.css')) 
+        				->prependStylesheet($this->basePath('jqwidgets/styles/jqx.base.css')) 
+        				->prependStylesheet($this->basePath('jqwidgets/styles/jqx.black.css')) ?>
 
         <!-- Scripts -->
         <?php echo $this->headScript()
+        	//->prependFile($this->basepath('js/require.js', 'text/javascript', array('data-main' => 'js/main')))
             ->prependFile($this->basePath('js/bootstrap.min.js'))
             ->prependFile($this->basePath('js/jquery.min.js'))
             ->prependFile($this->basePath('js/respond.min.js'), 'text/javascript', array('conditional' => 'lt IE 9',))
             ->prependFile($this->basePath('js/html5shiv.min.js'),   'text/javascript', array('conditional' => 'lt IE 9',))
         ; ?>
-
+		<script type="text/javascript" data-main="js/main" src="js/require.js"></script>
     </head>
     <body>
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -44,6 +47,32 @@
             </div>
         </nav>
         <div class="container">
+        
+        <div id='jqxTree' style="width:300px;hieght:300px">
+	        <ul>
+	            <li item-selected='true'>Home</li>
+	            <li item-expanded='true'>Solutions
+	                <ul>
+	                    <li>Education</li>
+	                    <li>Financial services</li>
+	                    <li>Government</li>
+	                    <li>Manufacturing</li>
+	                    <li>Solutions
+	                        <ul>
+	                            <li>Consumer photo and video</li>
+	                            <li>Mobile</li>
+	                            <li>Rich Internet applications</li>
+	                            <li>Technical communication</li>
+	                            <li>Training and eLearning</li>
+	                            <li>Web conferencing</li>
+	                        </ul>
+	                    </li>
+	                    <li>All industries and solutions</li>
+	                </ul>
+	            </li>
+	        </ul>
+	    </div>
+        
             <?php echo $this->content; ?>
             <hr>
             <footer>
