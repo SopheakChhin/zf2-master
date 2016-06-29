@@ -1,0 +1,74 @@
+<?php
+$form = $this->loginForm;
+$form->prepare();
+?>
+
+<header>
+    <!-- Main comapny header -->
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand top-navbar-brand" href="#"><img src=""> Application Name</a>
+            </div>
+            <ul class="nav navbar-nav navbar-right bigger-130 hidden-xs">
+                <li><a href="#google"><i class="glyphicon glyphicon-music"></i></a></li>
+                <li><a href="#fb"><i class="glyphicon glyphicon-music"></i></a></li>
+                <li><a href="#twitter"><i class="glyphicon glyphicon-search"></i></a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<section id="form" class="animated fadeInDown">
+    <div class="container">
+        <div id="loginbox" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+            <div class="panel white-alpha-90">
+                <div class="panel-heading">
+                    <div class="panel-title text-center"><h2>Sign In to <span class="text-primary">App</span></h2></div>
+                </div>
+                <div class="panel-body">
+                    <div class="flash-messenger">
+                        <?php
+                        echo $this->flashMessenger()->renderCurrent('error', array('alert', 'alert-danger'));
+                        echo $this->flashMessenger()->renderCurrent('success', array('alert', 'alert-success'));
+                        ?>
+                    </div>
+                    <?php echo $this->form()->openTag($form); ?>
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <?php echo $this->formElement($form->get('usr_email')); ?>
+                        </div>
+                        <div><label class="error"><?php echo $this->formElementErrors($form->get('usr_email'));?></label></div>
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            <?php echo $this->formElement($form->get('usr_password')); ?>
+                        </div>
+                        <div><label class="error"><?php echo $this->formElementErrors($form->get('usr_password'));?></label></div>
+                        <div class="input-group col-xs-12 text-center login-action">
+                            <div class="checkbox-inline">
+                                        <?php echo $this->formRow($form->get('usr_remember')); ?> Remember me &nbsp;
+                                    <span id="btn-login">
+                                        <?php echo $this->formRow($form->get('usr_csrf')); ?>
+                                        <?php echo $this->formElement($form->get('usr_login')); ?>
+                                    </span>
+                            </div>
+                        </div>
+                        <div style="margin-top:10px" class="form-group">
+                            <div class="col-sm-12 controls">
+
+                            </div>
+                        </div>
+                    <?php echo $this->form()->closeTag($form); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<footer>
+    <nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
+        <div class="container text-center">
+            <div class="footer-content">
+                Haven't registered yet? <a href="#"> Register Here </a>
+            </div>
+        </div><!-- /.container-fluid -->
+    </nav>
+</footer>

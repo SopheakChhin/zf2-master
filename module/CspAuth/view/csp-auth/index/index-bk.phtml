@@ -1,0 +1,36 @@
+<?php
+$form = $this->loginForm;
+$form->prepare();
+//echo $this->form()->openTag($form);
+//var_dump($loginForm);
+echo $this->form()->openTag($form);
+echo $this->formRow($form->get('usr_email'));
+echo $this->formRow($form->get('usr_password'));
+echo $this->form()->closeTag($form);
+?>
+<div class="row">
+    <div class="col-lg-12" style="width: 50%; height: auto 0;">
+        <h3>System Secure Login</h3>
+        <div class="form">
+            <form class="form-horizontal" action="" method="post">
+                <div class="form-group">
+                    <label class="control-label">User Name</label>
+                    <div><input type="text" class="form-control" name="usr_name" id="usr_name" value="" placeholder="user name"></div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Password</label>
+                    <div><input type="password" class="form-control" name="usr_password" id="usr_password" value="" placeholder="password"></div>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="checkbox" name="usr_remember" id="usr_remember" checked value="1"> Remember Me?
+                    </label>
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary" name="usr_login" id="usr_login" value="Login">
+                    <a href="#" class="btn btn-default">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

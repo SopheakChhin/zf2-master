@@ -1,0 +1,67 @@
+<?php echo $this->doctype(); ?>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <?php echo $this->headTitle('ZF2 '. $this->translate('Skeleton Application'))->setSeparator(' - ')->setAutoEscape(false) ?>
+
+        <?php echo $this->headMeta()
+            ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+            ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+        ?>
+
+        <!-- Le styles -->
+        <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
+                        ->prependStylesheet($this->basePath('css/login.css'))
+                        ->prependStylesheet($this->basePath('css/bootstrap-theme.min.css'))
+                        ->prependStylesheet($this->basePath('css/bootstrap.min.css'))
+                        ->prependStylesheet($this->basePath('css/theme.css'))
+                        ->prependStylesheet($this->basePath('css/css'))
+                        ->prependStylesheet($this->basePath('css/font-awesome.css'))
+                        ->prependStylesheet($this->basePath('css/animate.css'))
+                        ->prependStylesheet($this->basePath('css/theme-loading-bar.css'))
+        				//->prependStylesheet($this->basePath('jqwidgets/styles/jqx.base.css'))
+        				//->prependStylesheet($this->basePath('jqwidgets/styles/jqx.black.css'))
+        ?>
+        <!--<link href="css/css" rel="stylesheet" type="text/css">-->
+        <!-- Scripts -->
+        <?php echo $this->headScript()
+            //->prependFile($this->basePath('js/bootstrap.min.js'))
+            //->prependFile($this->basePath('js/jquery.min.js'))
+            //->prependFile($this->basePath('js/jquery.backstretch.min.js'))
+            ->prependFile($this->basepath('js/pace.js'))
+            ->prependFile($this->basePath('js/respond.min.js'), 'text/javascript', array('conditional' => 'lt IE 9',))
+            ->prependFile($this->basePath('js/html5shiv.min.js'),   'text/javascript', array('conditional' => 'lt IE 9',))
+        ; ?>
+        <!-- Scripts
+		    <script type="text/javascript" data-main="js/main" src="js/require.js"></script>
+        -->
+    </head>
+    <body class="pace-done">
+
+        <div class="pace  pace-inactive"><div class="pace-progress" data-progress-text="100%" data-progress="99" style="width: 100%;">
+            <div class="pace-progress-inner"></div>
+        </div>
+        <div class="pace-activity"></div></div>
+
+        <div class="container" id="container">
+            <?php echo $this->content; ?>
+
+        </div> <!-- /container -->
+
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/jquery.backstretch.min.js"></script>
+        <script>
+            Pace.on('hide', function(){
+                $("#container").fadeIn('1000');
+                $.backstretch([
+                    "img/taxi-1.jpg",
+                    "img/taxi-2.jpg"
+                ], {duration: 5000, fade: 1000});
+            });
+
+        </script>
+        <div class="backstretch" style="left: 0px; top: 0px; overflow: hidden; margin: 0px; padding: 0px; height: 715px; width: 1241px; z-index: -999999; position: fixed;"><img src="img/taxi-2.jpg" style="position: absolute; margin: 0px; padding: 0px; border: none; width: 1334.11px; height: 715px; max-height: none; max-width: none; z-index: -999999; left: -46.5554px; top: 0px;"></div>
+    </body>
+</html>
