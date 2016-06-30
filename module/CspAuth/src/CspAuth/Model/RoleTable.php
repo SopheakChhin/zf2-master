@@ -9,6 +9,25 @@
 namespace CspAuth\Model;
 
 
-class RoleTable {
+use Zend\Db\TableGateway\TableGateway;
 
+class RoleTable {
+    protected $tableGateWay;
+
+    public function __construct(TableGateway $tableGateway)
+    {
+        $this->tableGateWay = $tableGateway;
+    }
+
+    public function fetchAll($status)
+    {
+        $resultSet = $this->tableGateWay->select();
+
+        if(isset($status))
+        {
+            $resultSet->where('Status', $status);
+        }
+
+        return $resultSet->selectWith($resultSet);
+    }
 }

@@ -64,7 +64,7 @@ class Module
 
         //get cookie
         $cookie = $event->getRequest()->getCookie();
-        print_r($cookie);
+        //print_r($cookie);
 
         $requestUri = $request->getRequestUri();
         $controller = $event->getRouteMatch ()->getParam ( 'controller' );
@@ -80,6 +80,9 @@ class Module
                 $url = '/user';
                 $response->setHeaders ( $response->getHeaders ()->addHeaderLine ( 'Location', $url ) );
                 $response->setStatusCode ( 302 );
+            }else{
+                //implement acl
+
             }
         }else{
 
