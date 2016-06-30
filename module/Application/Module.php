@@ -19,6 +19,16 @@ class Module
         $eventManager        = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
+
+        //overwrite php settings into the web app
+        $services = $e->getApplication()->getServiceManager();
+        $config = $services->get('config');
+        $phpSettings = $config['php_settings'];
+        if ($phpSettings) {
+            foreach ($phpSettings as $key => $value) {
+                ini_set($key, $value);
+            }
+        }
     }
 
     public function getConfig()
