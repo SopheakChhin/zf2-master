@@ -23,5 +23,10 @@ return array(
             'Zend\Db\Adapter\Adapter' => 'Zend\Db\Adapter\AdapterServiceFactory'
         )
     ),
-    'static_salt' => '1A2B3C4E5FZYX0'
+    'static_salt' => '1A2B3C4E5FZYX0',
+    'php_settings' => array(
+        'date.timezone' => 'UTC',
+        'memory_limit' => '128M',
+        'display_errors' =>'On'
+    )
 );
