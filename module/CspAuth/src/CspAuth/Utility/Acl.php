@@ -14,7 +14,7 @@ use Zend\Permissions\Acl\Resource\GenericResource as Resource;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class Acl
+class Acl implements ServiceLocatorAwareInterface
 {
     const DEFAULT_ROLE = 'guest';
     protected $_roleTableObject;
@@ -24,19 +24,25 @@ class Acl
     protected $resources;
     protected $rolePermission;
     protected $commonPermission;
+
     public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
     {
         $this->serviceLocator = $serviceLocator;
 
-        return $this;
+        //return $this;
+        return $this->serviceLocator;
     }
     public function getServiceLocator()
     {
         return $this->serviceLocator;
     }
+
     public function initAcl()
     {
+        //echo 'test';exit;
+
         $this->roles = $this->_getAllRoles();
+        var_dump($this->roles);exit;
         $this->resources = $this->_getAllResources();
         $this->rolePermission = $this->_getRolePermissions();
         // we are not putting these resource & permission in table bcz it is

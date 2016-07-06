@@ -11,6 +11,7 @@ namespace CspAuth\Controller;
 
 use CspAuth\Form\LoginFilter;
 use CspAuth\Form\LoginForm;
+use CspAuth\Log\AuthEvent;
 use CspAuth\Utility\UserPassword;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Session\Container;
@@ -69,6 +70,22 @@ class IndexController extends AbstractActionController
                 $encryptPass = $userPassword->create($data['usr_password']);
 
                 //$authService = $this->getServiceLocator()->get('AuthService');
+
+                $authEvent = new AuthEvent();
+
+                /*$event  = $e->getName();
+                $target = get_class($e->getTarget()); // "Example"
+                $params = $e->getParams();*/
+                $authEvent->login('db_action','system_action', 'system_action_desc', $data, 'new_query', 'old_query', '');
+                $authEvent->getEventManager()->attach('login', function ($e) {
+                    $event = $e->getName();
+                    $params = $e->getParams();
+                    printf(
+                        'Handled event "%s", with parameters %s',
+                        $event,
+                        json_encode($params)
+                    );exit;
+                });
 
                 $this->getAuthService()->getAdapter()
                     ->setIdentity($data['usr_email'])

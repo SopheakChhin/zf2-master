@@ -11,7 +11,7 @@ namespace CspAuth\Model;
 
 use Zend\Db\TableGateway\TableGateway;
 
-class RoleTable {
+class RoleTable1 {
     protected $tableGateWay;
 
     public function __construct(TableGateway $tableGateway)

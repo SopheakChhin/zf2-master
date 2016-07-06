@@ -8,8 +8,11 @@
 
 namespace CspAuth;
 
+use CspAuth\Log\AuthListener;
+use CspAuth\Model\Role;
 use CspAuth\Model\User;
 use CspAuth\Model\UserTable;
+use CspAuth\Utility\Acl;
 use Zend\Authentication\Adapter\DbTable as DbAuthAdapter;
 use Zend\Authentication\AuthenticationService;
 use Zend\Db\ResultSet\ResultSet;
@@ -26,6 +29,9 @@ class Module
         $eventManager        = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
+
+        //Log event attach
+        $eventManager->attach(new AuthListener());
 
         //$serviceManager = $e->getApplication()->getServiceManager();
 
@@ -81,8 +87,17 @@ class Module
                 $response->setHeaders ( $response->getHeaders ()->addHeaderLine ( 'Location', $url ) );
                 $response->setStatusCode ( 302 );
             }else{
-                //implement acl
+                //implementation ACL
+                //$serviceManager = $event->getApplication()->getServiceManager();
+                /*$userRole = $session->offsetGet('roleName');
 
+                $acl = $serviceManager->get('Acl');
+                $acl->initAcl();
+
+                $status = $acl->isAccessAllowed($userRole, $controller, $action);
+                if (! $status) {
+                    die('Permission denied');
+                }*/
             }
         }else{
 
@@ -140,6 +155,34 @@ class Module
                     $resultSetPrototype = new ResultSet();
                     $resultSetPrototype->setArrayObjectPrototype(new User());
                     return new TableGateway('users', $adapter, null, $resultSetPrototype);
+                },
+                'Acl' => function ($serviceManager)
+                {
+                    return new Acl();
+                },
+                'UserTable' => function ($serviceManager)
+                {
+                    return new User($serviceManager->get('Zend\Db\Adapter\Adapter'));
+                },
+                'RoleTable' => function ($serviceManager)
+                {
+                    return new Role($serviceManager->get('Zend\Db\Adapter\Adapter'));
+                },
+                'UserRoleTable' => function ($serviceManager)
+                {
+                    return new UserRole($serviceManager->get('Zend\Db\Adapter\Adapter'));
+                },
+                'PermissionTable' => function ($serviceManager)
+                {
+                    return new PermissionTable($serviceManager->get('Zend\Db\Adapter\Adapter'));
+                },
+                'ResourceTable' => function ($serviceManager)
+                {
+                    return new ResourceTable($serviceManager->get('Zend\Db\Adapter\Adapter'));
+                },
+                'RolePermissionTable' => function ($serviceManager)
+                {
+                    return new RolePermissionTable($serviceManager->get('Zend\Db\Adapter\Adapter'));
                 }
             ),
         );

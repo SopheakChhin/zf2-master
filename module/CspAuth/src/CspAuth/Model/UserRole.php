@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: jimmy
  * Date: 7/3/16
- * Time: 10:13 PM
+ * Time: 10:15 PM
  */
 
 namespace CspAuth\Model;
@@ -15,14 +15,13 @@ use Complysight\Service\UserAuthAdapter;
 use Zend\Session\Container;
 use Complysight\Service\UserPassword;
 use Zend\Db\Sql\Update;
+use Zend\Db\Sql\Delete;
 use Zend\Validator\Explode;
 use Zend\Db\TableGateway\AbstractTableGateway;
 use Zend\Db\Adapter\Adapter;
-use Zend\Db\ResultSet\ResultSet;
-class Role extends AbstractTableGateway
+class UserRole extends AbstractTableGateway
 {
-    public $table = 'role';
-
+    public $table = 'user_role';
     public function __construct(Adapter $adapter)
     {
         $this->adapter = $adapter;
@@ -30,34 +29,45 @@ class Role extends AbstractTableGateway
         $this->initialize();
     }
 
-    public function getUserRoles($where = array(), $columns = array())
+    public function getUserRoles($where = array(), $columns = array(), $orderBy = '', $paging = false)
     {
         try {
             $sql = new Sql($this->getAdapter());
             $select = $sql->select()->from(array(
-                'role' => $this->table
+                'sa' => $this->table
             ));
-            $select->columns(array(
-                'rid',
-                'role_name',
-                'status',
-            ));
-            $select->where('status = "Active"');
+
             if (count($where) > 0) {
                 $select->where($where);
             }
+
+            $select->where($where);
 
             if (count($columns) > 0) {
                 $select->columns($columns);
             }
 
-            $statement = $sql->prepareStatementForSqlObject($select);
-            //echo $statement->getSql();
-            $roles = $this->resultSetPrototype->initialize($statement->execute())
-                ->toArray();
-            return $roles;
+            if (! empty($orderBy)) {
+                $select->order($orderBy);
+            }
+
+            if ($paging) {
+
+                $dbAdapter = new DbSelect($select, $this->getAdapter());
+                $paginator = new Paginator($dbAdapter);
+
+                return $paginator;
+            } else {
+                $statement = $sql->prepareStatementForSqlObject($select);
+
+                $clients = $this->resultSetPrototype->initialize($statement->execute())
+                    ->toArray();
+
+                return $clients;
+            }
         } catch (\Exception $e) {
             throw new \Exception($e->getPrevious()->getMessage());
         }
     }
+
 }
