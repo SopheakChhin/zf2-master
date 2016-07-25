@@ -50,6 +50,7 @@ class IndexController extends AbstractActionController
 
     public function indexAction()
     {
+
         $request = $this->getRequest();
 
         $viewModel = new ViewModel();
@@ -71,21 +72,6 @@ class IndexController extends AbstractActionController
 
                 //$authService = $this->getServiceLocator()->get('AuthService');
 
-                $authEvent = new AuthEvent();
-
-                /*$event  = $e->getName();
-                $target = get_class($e->getTarget()); // "Example"
-                $params = $e->getParams();*/
-                $authEvent->login('db_action','system_action', 'system_action_desc', $data, 'new_query', 'old_query', '');
-                $authEvent->getEventManager()->attach('login', function ($e) {
-                    $event = $e->getName();
-                    $params = $e->getParams();
-                    printf(
-                        'Handled event "%s", with parameters %s',
-                        $event,
-                        json_encode($params)
-                    );exit;
-                });
 
                 $this->getAuthService()->getAdapter()
                     ->setIdentity($data['usr_email'])
@@ -132,6 +118,23 @@ class IndexController extends AbstractActionController
         $this->getAuthService()->clearIdentity();
 
         //$this->flashMessenger()->addSuccessMessage('Success logout.');
-        return $this->redirect()->toUrl('/csp-auth');
+        return $this->redirect()->toUrl('/login');
     }
+
+    //service manager integration
+    /*$authEvent = new AuthEvent();
+
+                $event  = $e->getName();
+                $target = get_class($e->getTarget()); // "Example"
+                $params = $e->getParams();
+                $authEvent->login('db_action','system_action', 'system_action_desc', $data, 'new_query', 'old_query', '');
+                $authEvent->getEventManager()->attach('login', function ($e) {
+                    $event = $e->getName();
+                    $params = $e->getParams();
+                    printf(
+                        'Handled event "%s", with parameters %s',
+                        $event,
+                        json_encode($params)
+                    );exit;
+                });*/
 }

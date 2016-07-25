@@ -9,7 +9,10 @@
 namespace CspAuth;
 
 use CspAuth\Log\AuthListener;
+use CspAuth\Model\PermissionTable;
+use CspAuth\Model\ResourceTable;
 use CspAuth\Model\Role;
+use CspAuth\Model\RolePermissionTable;
 use CspAuth\Model\User;
 use CspAuth\Model\UserTable;
 use CspAuth\Utility\Acl;
@@ -31,7 +34,7 @@ class Module
         $moduleRouteListener->attach($eventManager);
 
         //Log event attach
-        $eventManager->attach(new AuthListener());
+        //$eventManager->attach(new AuthListener());
 
         //$serviceManager = $e->getApplication()->getServiceManager();
 
@@ -65,13 +68,6 @@ class Module
             //'User\Controller\Index-index',
         );
 
-        $serviceManager = $event->getApplication()->getServiceManager();
-        $hasIdentity = $serviceManager->get('AuthService')->hasIdentity();
-
-        //get cookie
-        $cookie = $event->getRequest()->getCookie();
-        //print_r($cookie);
-
         $requestUri = $request->getRequestUri();
         $controller = $event->getRouteMatch ()->getParam ( 'controller' );
         $action = $event->getRouteMatch ()->getParam ( 'action' );
@@ -81,15 +77,26 @@ class Module
 
         $session = new Container('User');
 
-        if ($session->offsetExists ( 'email' ) && $hasIdentity) {
+/*
+        $serviceManager = $event->getApplication()->getServiceManager();
+        $hasIdentity = $serviceManager->get('AuthService')->hasIdentity();
+
+        //get cookie
+        $cookie = $event->getRequest()->getCookie();
+        //print_r($cookie);
+
+        && $hasIdentity*/
+
+        if ($session->offsetExists ( 'email' )) {
             if ($requestedResource == 'CspAuth\Controller\Index-index' || in_array ( $requestedResource, $whiteList )) {
                 $url = '/user';
                 $response->setHeaders ( $response->getHeaders ()->addHeaderLine ( 'Location', $url ) );
                 $response->setStatusCode ( 302 );
             }else{
                 //implementation ACL
-                //$serviceManager = $event->getApplication()->getServiceManager();
-                /*$userRole = $session->offsetGet('roleName');
+                $serviceManager = $event->getApplication()->getServiceManager();
+                //$userRole = $session->offsetGet('roleName');
+                $userRole = "Role1";
 
                 $acl = $serviceManager->get('Acl');
                 $acl->initAcl();
@@ -97,12 +104,13 @@ class Module
                 $status = $acl->isAccessAllowed($userRole, $controller, $action);
                 if (! $status) {
                     die('Permission denied');
-                }*/
+                }
             }
         }else{
 
             if ($requestedResource != 'CspAuth\Controller\Index-index' && ! in_array ( $requestedResource, $whiteList )) {
-                $url = '/csp-auth';
+                $url = '/login';
+
                 $response->setHeaders ( $response->getHeaders ()->addHeaderLine ( 'Location', $url ) );
                 $response->setStatusCode ( 302 );
             }
